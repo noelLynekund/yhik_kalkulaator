@@ -25,6 +25,11 @@ class Teisendaja:
         tekst_tab1 = ttk.Label(self.tab1, text = "Pikkuste teisendus")
         tekst_tab1.pack(padx = 75, pady = 50)
         
+        entry_tekst = ttk.Label(self.tab1, text = "Sisesta arv: ") #lisab inputi
+        entry_tekst.pack(padx = 100, pady = 0)
+        entry = ttk.Entry(self.tab1)
+        entry.pack()
+        
         #siia peaks lisama rohkem widgeteid (kastid ja nupp, kastidest peaks saama väärtuseid, nupp tagastab kastide väärtustest saadud arvutused) 
     def mass(self):
         tekst_tab2 = ttk.Label(self.tab2, text = "Masside teisendus")
