@@ -19,16 +19,30 @@ class Teisendaja:
         self.mass()
         self.vedelik()
         
-        self.notebook.pack(expand = True, fill = 'both') #packib kokku ja väljastab 
+        self.notebook.pack(expand = True, fill = 'both') #packib kokku ja väljastab
+    
+    def pikkused_teisenda(self, entry):   #teisendab meetrid jalgadeks
+        try:
+            entry_väärtus = float(entry)
+            tulemus = entry_väärtus * 3.28084
+            self.tulemus_tekst.config(text=f"Arv jalgades: {tulemus:.2f}")
+        except ValueError:
+            self.tulemus_tekst.config(text="Sisesta kehtiv arv")
 
     def pikkused(self): #siin tabi sisu
         tekst_tab1 = ttk.Label(self.tab1, text = "Pikkuste teisendus")
         tekst_tab1.pack(padx = 75, pady = 50)
         
-        entry_tekst = ttk.Label(self.tab1, text = "Sisesta arv: ") #lisab inputi
+        entry_tekst = ttk.Label(self.tab1, text = "Sisesta arv meetrites: ") #lisab inputi
         entry_tekst.pack(padx = 100, pady = 0)
         entry = ttk.Entry(self.tab1)
         entry.pack()
+        
+        teisenda_nupp = ttk.Button(self.tab1, text = "Teisenda", command=lambda: self.pikkused_teisenda(entry.get()))
+        teisenda_nupp.pack()
+        
+        self.tulemus_tekst = ttk.Label(self.tab1, text = "Arv jalgades")
+        self.tulemus_tekst.pack()
         
         #siia peaks lisama rohkem widgeteid (kastid ja nupp, kastidest peaks saama väärtuseid, nupp tagastab kastide väärtustest saadud arvutused) 
     def mass(self):
