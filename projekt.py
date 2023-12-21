@@ -1,21 +1,24 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
+import ttkbootstrap as tb
 
 class Teisendaja:
     def __init__(self, root):
         self.root = root
         self.root.title("Yhik - SI/USCS")  # prog tabi tekst
+        style = tb.Style("darkly")
 
         self.notebook = ttk.Notebook(root)  # notebook kuhu lähevad vaheleheküljed
+
         self.tab1 = ttk.Frame(self.notebook)  # Frame (tab) notebooki
         self.tab2 = ttk.Frame(self.notebook)
         self.tab3 = ttk.Frame(self.notebook)
 
-        self.notebook.add(self.tab1, text="Pikkused")  # notebooki tabide lisamine, tekst tabi peal
-        self.notebook.add(self.tab2, text="Mass")
+        self.notebook.add(self.tab1, text="  Pikkused ")  # notebooki tabide lisamine, tekst tabi peal
+        self.notebook.add(self.tab2, text="   Mass   ")
         self.notebook.add(self.tab3, text="Vedeliku maht")
-        
-        about_button = tk.Button(root, text="?", command=self.about)
+
+        about_button = tb.Button(root, text="?", command=self.about, bootstyle="success")
         about_button.pack(side=tk.TOP, anchor=tk.NE)
 
         self.notebook.pack(expand=True, fill='both')  # packib kokku ja väljastab
@@ -23,7 +26,7 @@ class Teisendaja:
         self.pikkused()  # alumised funktsioonid, loob tabid
         self.mass()
         self.vedelik()
-        
+
     def about(self):
         text = "Yhik on converter programm, mis suudab teha teisendusi SI ja USCS süsteemi ühikute vahel.\n\nVersion 1.0\n\nLoojad:\n Noel Lünekünd\nGregor Artur Mäe"
         messagebox.showinfo("Yhik", text)
@@ -47,7 +50,7 @@ class Teisendaja:
         ühikuks_dropdown = ttk.Combobox(self.tab1, values=["in (tolli)", "ft (jalga)", "yd (jardi)", "mi (miili)"], textvariable=self.ühikuks)
 
         # teisenduse nupp
-        teisenda_button = tk.Button(self.tab1, text="Teisenda", command=self.teisendap)
+        teisenda_button = tb.Button(self.tab1, text="Teisenda", command=self.teisendap, bootstyle="success")
 
         # paigutus
         pikkus_label.grid(row=0, column=0, padx=5, pady=5)
@@ -94,7 +97,11 @@ class Teisendaja:
             }
 
             teisendus = väärtus * teisendused[(valitud_ühikust, mis_ühikuks)] #põhivalem
-            self.tulemus.set(f"{väärtus:.2f} {valitud_ühikust} on {teisendus:.2f} {mis_ühikuks}.")
+
+            if len((f"{väärtus:.2f} {valitud_ühikust} on {teisendus:.2f} {mis_ühikuks}.")) > 37:
+                self.tulemus.set((f"{väärtus:.2f} {valitud_ühikust} on \n {teisendus:.2f} {mis_ühikuks}."))
+            else:
+                self.tulemus.set((f"{väärtus:.2f} {valitud_ühikust} on {teisendus:.2f} {mis_ühikuks}."))
         except ValueError:
             self.tulemus.set("Vigane sisend. Sisestage kehtiv arv.")
 
@@ -117,7 +124,7 @@ class Teisendaja:
         ühikuks_dropdown = ttk.Combobox(self.tab2, values=["oz (untsi)", "lb (naela)", "ton (tonni)"], textvariable=self.mass_ühikuks)
         
         # teisenduse nupp
-        teisenda_button = tk.Button(self.tab2, text="Teisenda", command=self.teisendam)
+        teisenda_button = tb.Button(self.tab2, text="Teisenda", command=self.teisendam, bootstyle="success")
 
         # paigutus
         mass_label.grid(row=0, column=0, padx=5, pady=5)
@@ -152,7 +159,10 @@ class Teisendaja:
                 ("kg", "ton (tonni)"): 0.00110231,
             }
             teisendus = väärtus * teisendused[(valitud_ühikust, mis_ühikuks)]
-            self.mass_tulemus.set(f"{väärtus:.2f} {valitud_ühikust} on {teisendus:.2f} {mis_ühikuks}.")
+            if len((f"{väärtus:.2f} {valitud_ühikust} on {teisendus:.2f} {mis_ühikuks}.")) > 37:
+                self.mass_tulemus.set((f"{väärtus:.2f} {valitud_ühikust} on \n {teisendus:.2f} {mis_ühikuks}."))
+            else:
+                self.mass_tulemus.set((f"{väärtus:.2f} {valitud_ühikust} on {teisendus:.2f} {mis_ühikuks}."))
         except ValueError:
             self.mass_tulemus.set("Vigane sisend. Sisestage kehtiv arv.")
 
@@ -175,7 +185,7 @@ class Teisendaja:
         ühikuks_dropdown = ttk.Combobox(self.tab3, values=["fl oz (untsi)", "c (tassi)", "pt (pinti)", "qt (kvarti)", "gal (gallonit)"], textvariable=self.vedelik_ühikuks)
 
         # teisenduse nupp
-        teisenda_button = tk.Button(self.tab3, text="Teisenda", command=self.teisendav)
+        teisenda_button = tb.Button(self.tab3, text="Teisenda", command=self.teisendav, bootstyle="success")
 
         # paigutus
         vedelik_label.grid(row=0, column=0, padx=5, pady=5)
@@ -216,14 +226,17 @@ class Teisendaja:
                 ("l", "gal (gallonit)"): 0.264172,
                 }
             teisendus = väärtus * teisendused[(valitud_ühikust, mis_ühikuks)]
-            self.vedelik_tulemus.set(f"{väärtus:.2f} {valitud_ühikust} on {teisendus:.2f} {mis_ühikuks}.")
+            if len((f"{väärtus:.2f} {valitud_ühikust} on {teisendus:.2f} {mis_ühikuks}.")) > 37:
+                self.vedelik_tulemus.set((f"{väärtus:.2f} {valitud_ühikust} on \n {teisendus:.2f} {mis_ühikuks}."))
+            else:
+                self.vedelik_tulemus.set((f"{väärtus:.2f} {valitud_ühikust} on {teisendus:.2f} {mis_ühikuks}."))
         except ValueError:
             self.vedelik_tulemus.set("Vigane sisend. Sisestage kehtiv arv.")
 
 def main():
     root = tk.Tk()
     app = Teisendaja(root)
-    root.geometry("350x280")
+    root.geometry("225x265")
     root.mainloop()
 
 if __name__ == "__main__":
